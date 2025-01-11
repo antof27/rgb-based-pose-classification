@@ -1,25 +1,24 @@
-import torch
-from torch.utils.data import Dataset, DataLoader
-import pandas as pd
 import os
+import torch
+import pandas as pd
+import numpy as np
+import json
+import random
+import sys
 from PIL import Image
 import torchvision.transforms as transforms
-import numpy as np
-from torchvision import models
-from sklearn.metrics import precision_score, recall_score, f1_score, precision_recall_fscore_support, confusion_matrix
-import torch.nn.functional as F
-import seaborn as sns
-import matplotlib.pyplot as plt
-import json
-from models_initialization import initialize_model_efficientnet, initialize_model_resnet, initialize_model_mobilenet, initialize_model_resnext, initialize_model_inceptionv3
 import torch.nn as nn
 import torch.optim as optim
 from torch.cuda.amp import autocast, GradScaler
-import random
+from torchvision import models
+from torch.utils.data import Dataset, DataLoader
+from sklearn.metrics import precision_score, recall_score, f1_score, precision_recall_fscore_support, confusion_matrix
+import torch.nn.functional as F
+
+from models_initialization import initialize_model_efficientnet, initialize_model_resnet, initialize_model_mobilenet, initialize_model_resnext, initialize_model_inceptionv3
 import skopt
 from skopt import gp_minimize
 from skopt.space import Real, Categorical, Integer
-import sys 
 
 
 #Usage
@@ -122,10 +121,9 @@ class FocalLoss(nn.Module):
 
 
 # Initialize paths and seeds
-train_csv = "/home/afinocchiaro/dm/frames_dataset/train_data.csv"
-test_csv = "/home/afinocchiaro/dm/frames_dataset/test_data.csv"
-image_folder = f"/home/afinocchiaro/dm/frames_dataset/{MODE}"
-validation_image_folder = f"/home/afinocchiaro/dm/frames_dataset/{MODE}"
+train_csv = "/path/to/csv-training-file.csv"
+test_csv = "/path/to/csv-test-file.csv"
+image_folder = f"/path/to/images/folder"
 
 #Seeds
 seed = 27
@@ -147,7 +145,7 @@ transform = transforms.Compose([
 
 
 train_dataset = CustomImageDataset(csv_file=train_csv, image_folder=image_folder, transform=transform)
-test_dataset = CustomImageDataset(csv_file=test_csv, image_folder=validation_image_folder, transform=transform)
+test_dataset = CustomImageDataset(csv_file=test_csv, image_folder=image_folder, transform=transform)
 
 #Optimizers and activation functions pool for Bayesian Optimization
 # optimizers = {
@@ -276,10 +274,10 @@ def train_and_validate(model, train_dataset, test_dataset, optimizer, criterion,
             best_conf_matrix = confusion_matrix(all_labels, all_preds)
 
             # Save metrics and confusion matrix
-            with open(f"/home/afinocchiaro/dm/src/{MODEL}/{WEIGHTS}/{MODE}_images/metric_results.json", 'w') as json_file:
+            with open(f"/path/to/save/the/evaluation/metrics.json", 'w') as json_file:
                 json.dump(metrics, json_file, indent=4)
 
-            with open(f"/home/afinocchiaro/dm/src/{MODEL}/{WEIGHTS}/{MODE}_images/best_confusion_matrix.json", 'w') as cm_file:
+            with open(f"/path/to/save/the/confusion/matrix.json", 'w') as cm_file:
                 json.dump(best_conf_matrix.tolist(), cm_file, indent=4)
 
         # Early stopping trigger
@@ -347,7 +345,7 @@ if __name__ == "__main__":
 
     # Save the best model weights
     if best_weights:
-        save_path = f"/home/afinocchiaro/dm/src/{MODEL}/{WEIGHTS}/{MODE}_images/final_model_weights.pth"
+        save_path = f"/path/to/save/the/best/weights.pth"
         torch.save(best_weights, save_path)
         print(f"Best model weights saved to {save_path}.")
     else:

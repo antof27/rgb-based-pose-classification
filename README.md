@@ -16,8 +16,8 @@ This repository contains the codes of the work "Accomplish Calisthenics Skills C
 
     ```bash
     cd src
-    git clone [https://github.com/DepthAnything/Depth-Anything-V2.git](https://github.com/DepthAnything/Depth-Anything-V2.git) depth_anything_v2
-    git clone [https://github.com/THU-MIG/yolov10.git](https://github.com/THU-MIG/yolov10.git) yolov10
+    git clone https://github.com/DepthAnything/Depth-Anything-V2.git
+    git clone https://github.com/THU-MIG/yolov10.git
     cd ..
     ```
 3.  **Install dependencies:**

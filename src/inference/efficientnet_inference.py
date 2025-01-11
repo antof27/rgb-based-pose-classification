@@ -7,7 +7,9 @@ import os
 from PIL import Image
 
 # Path to the model weights
-WEIGHTS_PATH = "/home/afinocchiaro/dm/src/EfficientNetv2/pretrained/depth_patches/final_model_weights.pth"
+
+WEIGHTS_PATH = "/path/to/cnn/weights/.pth" #found in "src/training_eval/cnn_weights"
+
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
 # Initialize the EfficientNet model
