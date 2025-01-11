@@ -38,7 +38,6 @@ This repository contains the codes of the work "Accomplish Calisthenics Skills C
     For running inference with raw and depth patches, download the yolov10 pre-trained weights:
 
     ```bash
-    # Example (modify URL if needed - this is a placeholder)
     wget [https://raw.githubusercontent.com/ultralytics/yolov10/master/weights/yolov10n.pt](https://raw.githubusercontent.com/ultralytics/yolov10/master/weights/yolov10n.pt) -P yolov10/
     # Or download from kaggle and place in yolov10/
     # [https://www.kaggle.com/code/cubeai/person-detection-with-yolov10/output](https://www.kaggle.com/code/cubeai/person-detection-with-yolov10/output)
