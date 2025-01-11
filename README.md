@@ -1,6 +1,6 @@
 # Accomplish Calisthenics Skills Classification through Raw and Depth Patches
 
-This repository contains the codes of the work "Accomplish Calisthenics Skills Classification through Raw and Depth Patches" create for classifying calisthenics skills using raw and depth image patches.
+This repository contains the codes of the work "Accomplish Calisthenics Skills Classification through Raw and Depth Patches" created for classifying calisthenics skills using raw and depth image patches.
 
 ## Installation
 
