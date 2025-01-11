@@ -2,7 +2,6 @@
 
 This repository contains the codes of the work "Accomplish Calisthenics Skills Classification through Raw and Depth Patches" create for classifying calisthenics skills using depth and raw image patches.
 
-
 ## Installation
 
 1.  **Create conda environment:**
@@ -30,7 +29,6 @@ This repository contains the codes of the work "Accomplish Calisthenics Skills C
     In the `src/yolov10/` directory, there are two files: `bbox_operations.py` and `image_inference.py` that need to be copied into the main directory of YOLOv10 repository.
     ```bash
     cp -r src/yolo_files/* yolov10/
-    ```
 
     ```
 5.  **Download YOLOv10 pre-trained weights:**
@@ -45,7 +43,7 @@ This repository contains the codes of the work "Accomplish Calisthenics Skills C
 
 ## Project Structure
 
-    After cloning the repositories and installing the dependencies, the project structure should look like this:
+After cloning the repositories and installing the dependencies, the project structure should look like this:
 
 *   `Depth-Anything-V2`: Linked Depth Anything v2 repository.
 *   `yolov10`: Linked YOLOv10 repository.
@@ -55,21 +53,12 @@ This repository contains the codes of the work "Accomplish Calisthenics Skills C
 
 ## How to Use
 
-1.  **To train on your own dataset**
+1.  **To train and test on your own dataset**
 
-    *   Place your depth images, raw image patches, and corresponding class labels in the `data` directory. Ensure proper organization and subfolders for different categories if needed. Refer to Depth Anything v2 and YOLOv10 documentation for specific data format requirements.
+    *   Place your depth images, raw image patches or depth patches in the `data` directory. You should include two `.csv` files with `filename` columnn and `label` column. See the examples in the `data` directory.
+    *   Modify paths in `src/training_eval/main_script.py` to point to your data.
 
-2.  **Train your model (modify script according to your project):**
-
-    *   Edit the script in `src` for your CNN architecture, training parameters, and data loading logic.
-    *   Run training: `python train.py` (replace `train.py` with your script name)
-
-3.  **Evaluate your model (modify script according to your project):**
-
-    *   Edit the script in `src` for evaluation metrics and data loading logic.
-    *   Run evaluation: `python evaluate.py` (replace `evaluate.py` with your script name)
-
-4.  **Perform inference:**
-
+2.  **Perform inference:**
+    *  Place your input image in the `data` directory.
     *   Edit the script in `inference` to specify the input image and output format.
     *   Run inference: `python inference.py image.jpg` (replace `image.jpg` with your input image path)

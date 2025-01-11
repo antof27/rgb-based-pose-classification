@@ -11,12 +11,12 @@ import time
 # Directories for input and output
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 NUM_CLASSES = 10  
-input_dir = '/home/afinocchiaro/dm/image_path/raw_i'
-output_dir = '/home/afinocchiaro/dm/output_pipeline'
-depth_script_dir = '/home/afinocchiaro/dm/src/Depth-Anything-V2'
-yolo_script_dir = '/home/afinocchiaro/mr/src/yolov10'
+input_dir = '/path/to/input/images'
+output_dir = '/path/for/outpuy/images'
+depth_script_dir = '/path/to/main/depth-anything-v2/directory'
+yolo_script_dir = '/path/to/main/yolov10/directory'
 
-trained_weights_path = '/home/afinocchiaro/mr/src/yolov10/last.pt'
+trained_weights_path = '/path/to/main/yolov10/directory/last.pt'
 os.makedirs(output_dir, exist_ok=True)
 
 # Parameters for depth processing
@@ -211,18 +211,23 @@ def run_efficientnet_inference():
 # Main execution with concurrent processing for depth and YOLO
 with concurrent.futures.ThreadPoolExecutor() as executor:
     # Submit task for depth processing
-    # depth_future = executor.submit(timed_execution, run_depth_processing)
+    #Comment to not compute depth
+    depth_future = executor.submit(timed_execution, run_depth_processing)
 
     # # Run YOLO inference independently
+    #Comment to not compute patches
     yolo_future = executor.submit(timed_execution, run_yolo_inference)
 
     # # Wait for depth processing to complete
-    # depth_future.result()  # Blocks until depth processing is done
+    #Comment to not compute depth
+    depth_future.result()  # Blocks until depth processing is done
 
     # # Get predictions from YOLO inference
+    #Comment to not compute patches
     predictions = yolo_future.result()
 
     # # Process images after depth processing completes
+    #Comment to not compute depth patches
     timed_execution(process_images_after_depth, predictions)
 
     # Perform EfficientNet inference
