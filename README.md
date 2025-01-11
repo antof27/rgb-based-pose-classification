@@ -36,11 +36,10 @@ This repository contains the codes of the work "Accomplish Calisthenics Skills C
 
 ## Project Structure
     After cloning the repositories and installing the dependencies, the project structure should look like this:
-*   `Depth_Anything_v2`: Linked Depth Anything v2 library.
-*   `yolov10`: Linked YOLOv10 library.
-*   `src`: Contains your CNN implementation (e.g., model architecture, training script, evaluation script).
-*   `data`: Stores your calisthenics skill dataset (depth images, raw patches, labels).
-*   `inference`: Script for performing inference on new images.
+*   `Depth-Anything-V2`: Linked Depth Anything v2 repository.
+*   `yolov10`: Linked YOLOv10 repository.
+*   `src`: Contains the code for inference, training, and evaluation.
+*   `data`: Directory for input images for inference.
 *   `requirements.txt`: Lists Python dependencies.
 
 ## How to Use
