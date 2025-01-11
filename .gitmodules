@@ -1,0 +1,6 @@
+[submodule "src/yolov10"]
+	path = src/yolov10
+	url = https://github.com/THU-MIG/yolov10.git
+[submodule "src/Depth-Anything-V2"]
+	path = src/Depth-Anything-V2
+	url = https://github.com/DepthAnything/Depth-Anything-V2.git
