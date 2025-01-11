@@ -46,20 +46,19 @@ This repository contains the codes of the work "Accomplish Calisthenics Skills C
 After cloning the repositories and installing the dependencies, the project structure should look like this:
 
 
-├── src/                          # Contains code for inference, training, and evaluation
-|    ├── yolo_files/                # Files to be copied to yolov10/ directory
-|    ├── yolov10/          
-|    ├── Depth-Anything-V2/        
-│    ├── inference/                # Inference scripts
-│    ├── training_eval/            # Training and evaluation scripts
+├── src/
+|    ├── yolo_files/
+|    ├── yolov10/
+|    ├── Depth-Anything-V2/
+│    ├── inference/
+│    ├── training_eval/
 │              └── cnn_weights/
-│    
-├── data/                         # Directory for input images (inference)
-│    ├── csv_files/             
-│    ├── input_inference_images/              
-│    └── output_inference_images/                   
-└── requirements.txt              # Python dependencies
-
+│
+├── data/
+│    ├── csv_files/
+│    ├── input_inference_images/
+│    └── output_inference_images/
+└── requirements.txt
 
 ## How to Use
 
