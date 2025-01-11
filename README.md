@@ -21,21 +21,33 @@ This repository contains the codes of the work "Accomplish Calisthenics Skills C
     git clone [https://github.com/THU-MIG/yolov10.git](https://github.com/THU-MIG/yolov10.git) yolov10
     cd ..
     ```
+3.  **Install dependencies:**
+    Run the following command to install all the dependecies needed for the project.
+    ```bash
+    pip install -r requirements.txt
 
-3.  **Link YOLOv10 files (modify paths if needed):**
+4.  **Copy yolov10 files:**
     In the `src/yolov10/` directory, there are two files: `bbox_operations.py` and `image_inference.py` that need to be copied into the main directory of YOLOv10 repository.
     ```bash
     cp -r src/yolo_files/* yolov10/
     ```
 
-4.  **Install dependencies:**
-    Run the following command to install all the dependecies needed for the project.
+    ```
+5.  **Download YOLOv10 pre-trained weights:**
+
+    For running inference with raw and depth patches, download the yolov10 pre-trained weights:
+
     ```bash
-    pip install -r requirements.txt
+    # Example (modify URL if needed - this is a placeholder)
+    wget [https://raw.githubusercontent.com/ultralytics/yolov10/master/weights/yolov10n.pt](https://raw.githubusercontent.com/ultralytics/yolov10/master/weights/yolov10n.pt) -P yolov10/
+    # Or download from kaggle and place in yolov10/
+    # [https://www.kaggle.com/code/cubeai/person-detection-with-yolov10/output](https://www.kaggle.com/code/cubeai/person-detection-with-yolov10/output)
     ```
 
 ## Project Structure
+
     After cloning the repositories and installing the dependencies, the project structure should look like this:
+
 *   `Depth-Anything-V2`: Linked Depth Anything v2 repository.
 *   `yolov10`: Linked YOLOv10 repository.
 *   `src`: Contains the code for inference, training, and evaluation.
@@ -44,7 +56,7 @@ This repository contains the codes of the work "Accomplish Calisthenics Skills C
 
 ## How to Use
 
-1.  **Prepare your dataset:**
+1.  **To train on your own dataset**
 
     *   Place your depth images, raw image patches, and corresponding class labels in the `data` directory. Ensure proper organization and subfolders for different categories if needed. Refer to Depth Anything v2 and YOLOv10 documentation for specific data format requirements.
 
