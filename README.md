@@ -55,10 +55,14 @@ After cloning the repositories and installing the dependencies, the project stru
 
 1.  **To train and test on your own dataset**
 
-    *   Place your depth images, raw image patches or depth patches in the `data` directory. You should include two `.csv` files with `filename` columnn and `label` column. See the examples in the `data` directory.
+    *   Place your depth images, raw image patches or depth patches in the `data` directory. You should include two `.csv` files with `filename` columnn and `label` column. See the examples in the `data/csv_files` directory.
+        If you want to reproduce the same experiments, you can ask me to provide the image dataset.
     *   Modify paths in `src/training_eval/main_script.py` to point to your data.
 
 2.  **Perform inference:**
-    *  Place your input image in the `data` directory.
-    *   Edit the script in `inference` to specify the input image and output format.
-    *   Run inference: `python inference.py image.jpg` (replace `image.jpg` with your input image path)
+    *   Place your input images in the `data/input_inference_images` directory.
+    *   Edit the script `full_inference.py` in `src/inference` to specify the input, output images and weights paths.
+    *   Run inference: 
+        ```bash
+        python3 full_inference.py
+        ```
