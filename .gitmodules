@@ -1,3 +1,6 @@
 [submodule "src/Depth-Anything-V2"]
 	path = src/Depth-Anything-V2
 	url = https://github.com/DepthAnything/Depth-Anything-V2.git
+[submodule "src/yolov10"]
+	path = src/yolov10
+	url = https://github.com/antof27/yolov10.git
