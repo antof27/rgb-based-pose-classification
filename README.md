@@ -21,7 +21,7 @@ This repository contains the codes of the work "Accomplish Calisthenics Skills C
     cd ..
     ```
 3.  **Install dependencies:**
-    Run the following command to install all the dependecies needed for the project.
+    Run the following command to install all the dependencies needed for the project.
     ```bash
     pip install -r requirements.txt
 
@@ -36,8 +36,8 @@ This repository contains the codes of the work "Accomplish Calisthenics Skills C
     For running inference with raw and depth patches, download the yolov10 pre-trained weights:
 
     ```bash
-    wget [https://raw.githubusercontent.com/ultralytics/yolov10/master/weights/yolov10n.pt](https://raw.githubusercontent.com/ultralytics/yolov10/master/weights/yolov10n.pt) -P yolov10/
-    # Or download from kaggle and place in yolov10/
+    wget [https://raw.githubusercontent.com/ultralytics/yolov10/master/weights/yolov10n.pt](https://raw.githubusercontent.com/ultralytics/yolov10/master/weights/yolov10n.pt) -P src/yolov10/
+    # Or download from kaggle and place in src/yolov10/
     # [https://www.kaggle.com/code/cubeai/person-detection-with-yolov10/output](https://www.kaggle.com/code/cubeai/person-detection-with-yolov10/output)
     ```
 
