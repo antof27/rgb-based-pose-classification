@@ -13,7 +13,7 @@ This repository contains the codes of the work "Accomplish Calisthenics Skills C
     ```
 
 2.  **Clone repositories:**
-    Since it leverages the Depth Anything v2 and YOLOv10 libraries for efficient depth estimation and person detection. You need to clone this repository in `src/`
+    Since it leverages the Depth Anything v2 and YOLOv10 libraries for efficient depth estimation and person detection. You need to clone this repository in `src/`.
 
     ```bash
     cd src
@@ -37,7 +37,7 @@ This repository contains the codes of the work "Accomplish Calisthenics Skills C
     For running inference with raw and depth patches, download the YOLOv10 pre-trained weights from [YOLOv10 weights](https://www.kaggle.com/code/cubeai/person-detection-with-yolov10/output).
 
 
-7. **Download the CNN weights**
+7. **Download the CNN weights:**
 
    In order to fine-tune or perform inference with the pre-trained weights, you can download the pre-trained weights from the following link: [EfficientNetv2 weights](https://www.dropbox.com/home/cnn_weights).
    
