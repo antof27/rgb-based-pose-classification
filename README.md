@@ -43,7 +43,8 @@ This repository contains the codes of the work "Accomplish Calisthenics Skills C
 
 6. **Download the CNN weights**
    In order to fine-tune or perform inference with the pre-trained weights, you can download the pre-trained weights from the following link:
-   [CNN Weights](https://www.dropbox.com/home/cnn_weights)
+   [EfficientNetv2 Weights](https://www.dropbox.com/home/cnn_weights).
+   
 
 
 ## Project Structure
