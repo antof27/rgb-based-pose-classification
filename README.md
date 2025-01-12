@@ -75,7 +75,12 @@ requirements.txt
 
     *   Place your depth images, raw image patches or depth patches in the `data` directory. You should include two `.csv` files with `filename` columnn and `label` column. See the examples in the `data/csv_files` directory.
         If you want to reproduce the same experiments, you can ask me to provide the image dataset.
-    *   Modify paths in `src/training_eval/main_script.py` to point to your data.
+    *   Modify paths and hyperparameters in `src/training_eval/main_script.py` and run the script specifying some parameters in the code or in the command, for example:
+        ```bash
+        python3 model.py --weights pretrained --mode normal --n_gpu 1
+        ```
+        where `--weights` can be [non-pretrained, pretrained], `--mode` refers to images and can be [normal, depth], `--n_gpu` refers to the GPU id (in case of multiple GPUs).
+        
 
 2.  **Perform inference:**
     *   Place your input images in the `data/input_inference_images` directory.
