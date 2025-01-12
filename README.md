@@ -4,11 +4,12 @@ This repository contains the codes of the work "Accomplish Calisthenics Skills C
 
 ## Installation
 
-1.  **Create conda environment:**
+1.  **Create conda environment and clone this repository:**
 
     ```bash
     conda create -n calisthenics_env python=3.12
-    conda activate calisthenics_env  
+    conda activate calisthenics_env
+    git clone https://github.com/antof27/rgb-based-pose-classification.git
     ```
 
 2.  **Clone repositories:**
