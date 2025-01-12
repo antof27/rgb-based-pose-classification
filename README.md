@@ -64,7 +64,7 @@ data/
 ├── input_inference_images/
 └── output_inference_images/
 
-Finocchiaro_ACStRDP.pdf
+Finocchiaro_ACSCtRDP.pdf
     
 requirements.txt
 </pre>
