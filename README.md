@@ -33,14 +33,11 @@ This repository contains the codes of the work "Accomplish Calisthenics Skills C
     ```
 5.  **Download YOLOv10 pre-trained weights:**
 
-    For running inference with raw and depth patches, download the YOLOv10 pre-trained weights from:
-
-    [YOLOv10 weights](https://www.kaggle.com/code/cubeai/person-detection-with-yolov10/output)
+    For running inference with raw and depth patches, download the YOLOv10 pre-trained weights from [YOLOv10 weights](https://www.kaggle.com/code/cubeai/person-detection-with-yolov10/output).
 
 
 7. **Download the CNN weights**
-   In order to fine-tune or perform inference with the pre-trained weights, you can download the pre-trained weights from the following link:
-   [EfficientNetv2 Weights](https://www.dropbox.com/home/cnn_weights).
+   In order to fine-tune or perform inference with the pre-trained weights, you can download the pre-trained weights from the following link: [EfficientNetv2 Weights](https://www.dropbox.com/home/cnn_weights).
    
 
 
