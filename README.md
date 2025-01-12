@@ -52,7 +52,6 @@ src/
 ├── Depth-Anything-V2/
 ├── inference/
 └── training_eval/
-    └── cnn_weights/
 
 data/
 ├── csv_files/
