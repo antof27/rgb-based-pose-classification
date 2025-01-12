@@ -41,6 +41,11 @@ This repository contains the codes of the work "Accomplish Calisthenics Skills C
     # [https://www.kaggle.com/code/cubeai/person-detection-with-yolov10/output](https://www.kaggle.com/code/cubeai/person-detection-with-yolov10/output)
     ```
 
+6. **Download the CNN weights**
+   In order to fine-tune or perform inference with the pre-trained weights, you can download the pre-trained weights from the following link:
+   [CNN Weights](https://www.dropbox.com/home/cnn_weights)
+
+
 ## Project Structure
 
 After cloning the repositories and installing the dependencies, the project structure should look like this:
