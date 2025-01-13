@@ -220,16 +220,17 @@ def run_efficientnet_inference():
 # Main execution with concurrent processing for depth and YOLO
 with concurrent.futures.ThreadPoolExecutor() as executor:
     # Submit task for depth processing
-    #Comment to not compute depth
-    depth_future = executor.submit(timed_execution, run_depth_processing)
+    if MODE == "depth":
+        depth_future = executor.submit(timed_execution, run_depth_processing)
 
     # # Run YOLO inference independently
     #Comment to not compute patches
     yolo_future = executor.submit(timed_execution, run_yolo_inference)
 
     # # Wait for depth processing to complete
-    #Comment to not compute depth
-    depth_future.result()  # Blocks until depth processing is done
+    
+    if MODE == "depth":
+        depth_future.result()  # Blocks until depth processing is done
 
     # # Get predictions from YOLO inference
     #Comment to not compute patches
