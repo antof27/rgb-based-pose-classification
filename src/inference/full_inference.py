@@ -11,17 +11,22 @@ import time
 # Directories for input and output
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 NUM_CLASSES = 10  
-input_dir = '/path/to/input/images'
-output_dir = '/path/for/outpuy/images'
-depth_script_dir = '/path/to/main/depth-anything-v2/directory'
-yolo_script_dir = '/path/to/main/yolov10/directory'
+input_dir = '/home/afinocchiaro/dm/image_path/raw_i'
+output_dir = '/home/afinocchiaro/dm/output_pipeline'
+depth_script_dir = '/home/afinocchiaro/dm/src/Depth-Anything-V2'
+yolo_script_dir = '/home/afinocchiaro/mr/src/yolov10'
 
-trained_weights_path = '/path/to/main/yolov10/directory/last.pt'
+trained_weights_path = '/home/afinocchiaro/mr/src/yolov10/last.pt'
 os.makedirs(output_dir, exist_ok=True)
 
 # Parameters for depth processing
 encoder = 'vitl'
 pred_only = True
+MODE = 'depth'
+
+if len(sys.argv) > 1:
+    MODE = sys.argv[1]
+
 
 overall_start_time = time.time()
 def timed_execution(func, *args, **kwargs):
@@ -87,7 +92,7 @@ def get_transform():
         transforms.ToTensor(),  
     ])
 
-# Load and process images from a folder, applying the necessary transformations
+# Load and process images from a folder
 def load_images_from_folder(folder, transform):
     """
     Loads images from a specified folder and applies transformations.
@@ -102,7 +107,7 @@ def load_images_from_folder(folder, transform):
     filenames = []
     
     for filename in os.listdir(folder):
-        if filename.endswith('.jpg'): 
+        if filename.endswith('.jpg') or filename.endswith('.png'): 
             file_path = os.path.join(folder, filename)
             image = Image.open(file_path).convert("RGB")  
             image_tensor = transform(image)  
@@ -139,7 +144,11 @@ def process_images_after_depth(predictions):
         from bbox_operations import process_and_crop_images
         
         if predictions:
-            process_and_crop_images(predictions, input_dir, output_dir)
+            if MODE == "depth":
+                process_and_crop_images(predictions, output_dir, output_dir, MODE)
+            else:
+                process_and_crop_images(predictions, input_dir, output_dir, MODE)
+                
             print(f"Image processing completed. Cropped images saved in {output_dir}")
         else:
             print("No predictions to process.")
@@ -149,7 +158,7 @@ def process_images_after_depth(predictions):
 # Function to process a single image for EfficientNet inference
 def process_single_image(image_path, transform, device):
     image = Image.open(image_path).convert("RGB")  
-    image_tensor = transform(image).unsqueeze(0).to(device)  # Add batch dimension and move to device
+    image_tensor = transform(image).unsqueeze(0).to(device)  
     return image_tensor
 
 # Function to perform EfficientNet inference
@@ -162,7 +171,7 @@ def perform_inference(image_folder, model, device):
 
     # Load and process all images in the folder
     for filename in os.listdir(image_folder):
-        if filename.endswith('.jpg') or filename.endswith('.png'):
+        if filename.endswith('.jpg'):
             file_path = os.path.join(image_folder, filename)
             image_tensor = process_single_image(file_path, transform, device)  # Process one image
             images.append(image_tensor)
@@ -172,19 +181,19 @@ def perform_inference(image_folder, model, device):
         print("No images found in the folder.")
         return []
 
-    dataset = torch.cat(images, dim=0).to(device)  # Stack images into a batch and move to the correct device
+    dataset = torch.cat(images, dim=0).to(device)  
     
     results = []
     print("Performing inference...")
     model.eval()
     with torch.no_grad():
-        outputs = model(dataset)  # Run inference on the batch
-        predictions = torch.argmax(outputs, dim=1).cpu().numpy()  # Get predicted class IDs
+        outputs = model(dataset)  
+        predictions = torch.argmax(outputs, dim=1).cpu().numpy()  
         
         # Convert predicted class IDs to class names
         for i, pred in enumerate(predictions):
-            print(f"Predicted class: {pred}")
-            print(f"Filename: {filenames[i]}")
+            # print(f"Predicted class: {pred}")
+            # print(f"Filename: {filenames[i]}")
             results.append((filenames[i], class_names[pred]))
     
     return results
@@ -195,7 +204,7 @@ def run_efficientnet_inference():
         print("Running EfficientNet inference...")
         
         # Specify the path to the saved weights
-        weights_path = '/home/afinocchiaro/dm/src/EfficientNetv2/pretrained/normal_patches/final_model_weights.pth'
+        weights_path = f'/path/to/efficientnet/weights/{MODE}.pth'
         
         # Initialize model with weights
         model = initialize_model_efficientnet(NUM_CLASSES, weights_path=weights_path).to(DEVICE)

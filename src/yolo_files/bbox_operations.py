@@ -62,6 +62,9 @@ def process_and_crop_images(all_predictions, images_folder, output_folder):
     # Process each image and crop based on bounding boxes
     for image_name, boxes in filtered_predictions.items():
         image_path = os.path.join(images_folder, image_name)
+        if MODE == "depth":
+            image_path = image_path.replace(".jpg", ".png")
+        
         if not os.path.exists(image_path):
             print(f"Image {image_name} not found in {images_folder}. Skipping.")
             continue
