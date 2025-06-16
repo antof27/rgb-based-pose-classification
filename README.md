@@ -1,6 +1,7 @@
-# Accomplish Calisthenics Skills Classification through Raw and Depth Patches
+# Efficient Calisthenics Skills Classification through
+Foreground Instance Selection and Depth Estimation
 
-This repository contains the codes of the work "Accomplish Calisthenics Skills Classification through Raw and Depth Patches" created for classifying calisthenics skills using raw and depth image patches.
+This repository contains the codes of the work "Efficient Calisthenics Skills Classification through Foreground Instance Selection and Depth Estimation" created for classifying calisthenics skills using raw and depth image patches.
 
 ## Installation
 
