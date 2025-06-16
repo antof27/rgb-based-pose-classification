@@ -1,5 +1,4 @@
-# Efficient Calisthenics Skills Classification through
-Foreground Instance Selection and Depth Estimation
+# Efficient Calisthenics Skills Classification through Foreground Instance Selection and Depth Estimation
 
 This repository contains the codes of the work "Efficient Calisthenics Skills Classification through Foreground Instance Selection and Depth Estimation" created for classifying calisthenics skills using raw and depth image patches.
 
