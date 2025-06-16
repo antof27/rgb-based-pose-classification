@@ -8,19 +8,23 @@ from PIL import Image
 from torchvision.models import efficientnet_v2_l
 import time
 
-# Directories for input and output
+
 DEVICE = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 NUM_CLASSES = 10  
-input_dir = '/home/afinocchiaro/dm/image_path/raw_i'
-output_dir = '/home/afinocchiaro/dm/output_pipeline'
-depth_script_dir = '/home/afinocchiaro/dm/src/Depth-Anything-V2'
-yolo_script_dir = '/home/afinocchiaro/mr/src/yolov10'
 
-trained_weights_path = '/home/afinocchiaro/mr/src/yolov10/last.pt'
+input_dir = '/path/to/input_dir'
+output_dir = '/path/to/outpu_dir'
+
+depth_script_dir = 'path/to/dav2'
+yolo_script_dir = '/path/to/yolo_scripts'
+
+yolo_weights_path = '/path/to/yolo/checkpoint'
+efficient_weights_path = '/path/to/efficient/checkpoint'
+
 os.makedirs(output_dir, exist_ok=True)
 
 # Parameters for depth processing
-encoder = 'vitl'
+encoder = 'vits'
 pred_only = True
 MODE = 'depth'
 
@@ -53,56 +57,31 @@ if pred_only:
 class_names = ['bl', 'fl', 'flag', 'ic', 'mal', 'none', 'oafl', 'oahs', 'pl', 'vsit']
 
 def initialize_model_efficientnet(num_classes, weights_path=None, activation=torch.nn.Softplus()):
-    """
-    Initializes the EfficientNet V2-L model, modifies the classifier for custom class outputs, and optionally loads weights.
-    Args:
-        num_classes (int): Number of output classes for the classification task.
-        weights_path (str, optional): Path to the model weights.
-        activation (torch.nn.Module): Activation function to be used after the classifier.
-    Returns:
-        model (torch.nn.Module): The modified EfficientNet model.
-    """
-    # Load the EfficientNet model without pretrained weights
-    model = efficientnet_v2_l(weights=None)  # Start with no weights
+
+    model = efficientnet_v2_l(weights=None)  
     
-    # Modify the classifier to match the number of classes
     model.classifier[1] = torch.nn.Sequential(
         torch.nn.Linear(model.classifier[1].in_features, num_classes),
         activation
     )
     
-    # If weights_path is provided, load the model weights
     if weights_path:
-        checkpoint = torch.load(weights_path, map_location=DEVICE, weights_only=True)
+        checkpoint = torch.load(efficient_weights_path, map_location=DEVICE, weights_only=True)
         model.load_state_dict(checkpoint)
-        print(f"Loaded weights from {weights_path}")
     
     return model
 
 
 
 def get_transform():
-    """
-    Defines the image transformation pipeline including resizing and tensor conversion.
-    Returns:
-        transform (torchvision.transforms.Compose): The composed transformation pipeline.
-    """
     return transforms.Compose([
         transforms.Resize((224, 224)),  
         transforms.ToTensor(),  
     ])
 
-# Load and process images from a folder
+# Load and process images from a folder, applying the necessary transformations
 def load_images_from_folder(folder, transform):
-    """
-    Loads images from a specified folder and applies transformations.
-    Args:
-        folder (str): Path to the folder containing the images.
-        transform (torchvision.transforms.Compose): The transformation to apply to each image.
-    Returns:
-        images (list): List of image tensors.
-        filenames (list): List of filenames corresponding to the loaded images.
-    """
+    
     images = []
     filenames = []
     
@@ -115,6 +94,7 @@ def load_images_from_folder(folder, transform):
             filenames.append(filename)
     
     return images, filenames
+
 
 # Function to run depth processing
 def run_depth_processing():
@@ -130,7 +110,7 @@ def run_yolo_inference():
         sys.path.append(yolo_script_dir)
         from image_inference import run_yolo_inference
         
-        predictions = run_yolo_inference(trained_weights_path, input_dir, output_dir)
+        predictions = run_yolo_inference(yolo_weights_path, input_dir, output_dir)
         print(f"YOLO inference completed. Predictions saved in {output_dir}")
         return predictions
     except Exception as e:
@@ -148,18 +128,20 @@ def process_images_after_depth(predictions):
                 process_and_crop_images(predictions, output_dir, output_dir, MODE)
             else:
                 process_and_crop_images(predictions, input_dir, output_dir, MODE)
-                
+
             print(f"Image processing completed. Cropped images saved in {output_dir}")
         else:
             print("No predictions to process.")
     except Exception as e:
         print(f"Error during image processing: {e}")
 
+
 # Function to process a single image for EfficientNet inference
 def process_single_image(image_path, transform, device):
     image = Image.open(image_path).convert("RGB")  
     image_tensor = transform(image).unsqueeze(0).to(device)  
     return image_tensor
+
 
 # Function to perform EfficientNet inference
 def perform_inference(image_folder, model, device):
@@ -173,7 +155,7 @@ def perform_inference(image_folder, model, device):
     for filename in os.listdir(image_folder):
         if filename.endswith('.jpg'):
             file_path = os.path.join(image_folder, filename)
-            image_tensor = process_single_image(file_path, transform, device)  # Process one image
+            image_tensor = process_single_image(file_path, transform, device)  
             images.append(image_tensor)
             filenames.append(filename)
     
@@ -187,13 +169,10 @@ def perform_inference(image_folder, model, device):
     print("Performing inference...")
     model.eval()
     with torch.no_grad():
-        outputs = model(dataset)  
-        predictions = torch.argmax(outputs, dim=1).cpu().numpy()  
+        outputs = model(dataset) 
+        predictions = torch.argmax(outputs, dim=1).cpu().numpy()
         
-        # Convert predicted class IDs to class names
         for i, pred in enumerate(predictions):
-            # print(f"Predicted class: {pred}")
-            # print(f"Filename: {filenames[i]}")
             results.append((filenames[i], class_names[pred]))
     
     return results
@@ -203,11 +182,8 @@ def run_efficientnet_inference():
     try:
         print("Running EfficientNet inference...")
         
-        # Specify the path to the saved weights
-        weights_path = f'/path/to/efficientnet/weights/{MODE}.pth'
-        
         # Initialize model with weights
-        model = initialize_model_efficientnet(NUM_CLASSES, weights_path=weights_path).to(DEVICE)
+        model = initialize_model_efficientnet(NUM_CLASSES, weights_path=efficient_weights_path).to(DEVICE)
         
         results = perform_inference(output_dir, model, DEVICE)
         print("EfficientNet inference completed.")
@@ -219,26 +195,20 @@ def run_efficientnet_inference():
 
 # Main execution with concurrent processing for depth and YOLO
 with concurrent.futures.ThreadPoolExecutor() as executor:
-    # Submit task for depth processing
-    if MODE == "depth":
-        depth_future = executor.submit(timed_execution, run_depth_processing)
-
-    # # Run YOLO inference independently
-    #Comment to not compute patches
-    yolo_future = executor.submit(timed_execution, run_yolo_inference)
-
-    # # Wait for depth processing to complete
     
     if MODE == "depth":
-        depth_future.result()  # Blocks until depth processing is done
+        
+        yolo_future = executor.submit(timed_execution, run_yolo_inference)
+        predictions = yolo_future.result()
+        timed_execution(process_images_after_depth, predictions)
+        depth_future = executor.submit(timed_execution, run_depth_processing)
+        depth_future.result()
 
-    # # Get predictions from YOLO inference
-    #Comment to not compute patches
-    predictions = yolo_future.result()
+    # # Run YOLO inference independently
+    else:
+        yolo_future = executor.submit(timed_execution, run_yolo_inference)
+        predictions = yolo_future.result()
 
-    # # Process images after depth processing completes
-    #Comment to not compute depth patches
-    timed_execution(process_images_after_depth, predictions)
 
     # Perform EfficientNet inference
     timed_execution(run_efficientnet_inference)
